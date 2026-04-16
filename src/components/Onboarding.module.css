@@ -1,0 +1,91 @@
+.onboardingContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 900px) {
+  .onboardingContainer {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.heroSection {
+  padding: 20px;
+}
+
+.title {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.formCard {
+  padding: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.inputGroup input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+.submitBtn {
+  margin-top: 16px;
+  padding: 14px;
+}
+
+.errorAlert {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}

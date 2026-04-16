@@ -1,0 +1,123 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  margin: 16px auto;
+  max-width: 1200px;
+  width: calc(100% - 40px);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 32px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.coinBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
+.creditBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.profileInitials {
+  width: 36px;
+  height: 36px;
+  background: var(--glass-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.loginHint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+}

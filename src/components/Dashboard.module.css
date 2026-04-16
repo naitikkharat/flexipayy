@@ -1,0 +1,179 @@
+.dashboard {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.statCard {
+  padding: 24px;
+}
+
+.statCard h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.progressContainer {
+  margin-top: auto;
+}
+
+.progressBar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 64px 20px;
+  gap: 16px;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+}
+
+.emptyState p {
+  color: var(--text-secondary);
+  max-width: 400px;
+}
+
+.emiList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.emiCard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.emiHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.emiHeader h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusActive {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.emiDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.emiDetailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.emiDetailItem strong {
+  font-size: 1.1rem;
+}
+
+.emiAction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.nextPayment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--warning);
+}
+
+.payBtn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.completedMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: var(--success);
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .emiDetails {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

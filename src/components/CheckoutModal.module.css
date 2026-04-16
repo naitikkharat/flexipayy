@@ -1,0 +1,207 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-gradient-start);
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar for the modal */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+.modalContent::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1); 
+  border-radius: 4px;
+}
+.modalContent::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2); 
+  border-radius: 4px;
+}
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3); 
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.productSummary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.productImage {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent-primary);
+  margin-top: 4px;
+}
+
+.emiSection {
+  margin-bottom: 24px;
+}
+
+.monthOptions {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.monthOption {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.monthOption:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.monthOption.selected {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+}
+
+.monthNumber {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.monthLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.checkoutDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.detailRow span:last-child {
+  color: white;
+  font-weight: 500;
+}
+
+.highlightRow {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--glass-border);
+}
+
+.highlightRow span {
+  font-size: 1.1rem;
+  color: white !important;
+  font-weight: 700 !important;
+}
+
+.confirmBtn {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+}
+
+.errorAlert {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.successState {
+  align-items: center;
+  text-align: center;
+  padding: 48px 32px;
+}
+
+.downPaymentSection {
+  margin-bottom: 24px;
+}
+
+.dpInput {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+.dpInput:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
