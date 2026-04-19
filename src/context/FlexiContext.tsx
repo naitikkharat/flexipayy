@@ -303,6 +303,7 @@ export const FlexiProvider = ({ children }: { children: ReactNode }) => {
       status: 'processing',
     };
 
+    try {
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
