@@ -60,6 +60,7 @@ export type RegisteredUser = {
   age: number;
   income: number;
   creditLimit: number;
+  flexiCoins: number;
   joinedAt: string;
 };
 

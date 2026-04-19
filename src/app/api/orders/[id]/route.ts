@@ -4,11 +4,11 @@ import Order from '@/models/Order';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params; // Await the params in Next.js 16
     const body = await req.json();
 
     const updatedOrder = await Order.findOneAndUpdate(
