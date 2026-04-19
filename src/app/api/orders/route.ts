@@ -30,8 +30,11 @@ export async function POST(req: NextRequest) {
 
     const order = await Order.create(body);
     return NextResponse.json(order.toObject(), { status: 201 });
-  } catch (err) {
-    console.error('[POST /api/orders]', err);
-    return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
+  } catch (err: any) {
+    console.error('[POST /api/orders] Error Details:', err);
+    return NextResponse.json({ 
+      error: 'Failed to save order', 
+      details: err.message || 'Unknown error' 
+    }, { status: 500 });
   }
 }

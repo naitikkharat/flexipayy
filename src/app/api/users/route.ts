@@ -32,8 +32,11 @@ export async function POST(req: NextRequest) {
     ).lean();
 
     return NextResponse.json(user, { status: 201 });
-  } catch (err) {
-    console.error('[POST /api/users]', err);
-    return NextResponse.json({ error: 'Failed to save user' }, { status: 500 });
+  } catch (err: any) {
+    console.error('[POST /api/users] Error Details:', err);
+    return NextResponse.json({ 
+      error: 'Failed to save user',
+      details: err.message || 'Unknown error'
+    }, { status: 500 });
   }
 }
