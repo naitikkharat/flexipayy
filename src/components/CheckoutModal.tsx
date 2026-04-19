@@ -94,11 +94,9 @@ export default function CheckoutModal({
       if (result) {
         setCompletedOrder(result);
         setStep('success');
-      } else {
-        setError('Checkout failed. Please try again.');
       }
-    } catch (err) {
-      setError('An error occurred during checkout. Please try again.');
+    } catch (err: any) {
+      setError(`Checkout failed: ${err.message || 'Please try again.'}`);
     } finally {
       setIsSubmitting(false);
     }

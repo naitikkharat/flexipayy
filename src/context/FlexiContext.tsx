@@ -303,16 +303,19 @@ export const FlexiProvider = ({ children }: { children: ReactNode }) => {
       status: 'processing',
     };
 
-    try {
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order),
       });
-      if (!res.ok) return false;
-    } catch (err) {
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.details || 'Server failed to save order');
+      }
+    } catch (err: any) {
       console.error('Failed to save order:', err);
-      return false;
+      throw err; // Re-throw to be caught by the component
     }
 
     if (coinsUsed > 0) {
