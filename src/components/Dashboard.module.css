@@ -7,23 +7,42 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem !important;
+  }
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .statCard {
   padding: 24px;
 }
 
+@media (max-width: 600px) {
+  .statCard {
+    padding: 20px;
+  }
+}
+
 .statCard h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .amount {
@@ -31,6 +50,13 @@
   font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .amount {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
 }
 
 .progressContainer {
@@ -54,7 +80,7 @@
 .progressLabels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
@@ -79,14 +105,26 @@
 
 .emiList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 400px) {
+  .emiList {
+    grid-template-columns: 1fr;
+  }
 }
 
 .emiCard {
   padding: 24px;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .emiCard {
+    padding: 20px;
+  }
 }
 
 .emiHeader {
@@ -97,7 +135,7 @@
 }
 
 .emiHeader h4 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-right: 12px;
 }
@@ -105,7 +143,7 @@
 .statusBadge {
   padding: 4px 10px;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -135,11 +173,11 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .emiDetailItem strong {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .emiAction {
@@ -147,19 +185,21 @@
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
+  gap: 12px;
 }
 
 .nextPayment {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 0.8rem;
   color: var(--warning);
 }
 
 .payBtn {
   padding: 8px 16px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 .completedMessage {

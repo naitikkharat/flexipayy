@@ -9,7 +9,8 @@
 @media (max-width: 900px) {
   .onboardingContainer {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
+    padding-bottom: 40px;
   }
 }
 
@@ -24,6 +25,12 @@
   margin-bottom: 24px;
 }
 
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.2rem;
+  }
+}
+
 .subtitle {
   font-size: 1.25rem;
   color: var(--text-secondary);
@@ -32,6 +39,12 @@
 
 .formCard {
   padding: 32px;
+}
+
+@media (max-width: 600px) {
+  .formCard {
+    padding: 24px;
+  }
 }
 
 .form {
@@ -62,6 +75,7 @@
   font-family: inherit;
   font-size: 1rem;
   transition: border-color var(--transition-fast);
+  width: 100%;
 }
 
 .inputGroup input:focus {
@@ -73,6 +87,13 @@
 .row {
   display: flex;
   gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .submitBtn {

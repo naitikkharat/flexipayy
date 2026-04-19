@@ -1,0 +1,336 @@
+"use client";
+
+import React, { useState } from 'react';
+import { useFlexi, RegisteredUser, Order } from '@/context/FlexiContext';
+import styles from './Admin.module.css';
+import {
+  Lock,
+  Users,
+  ShoppingBag,
+  BarChart2,
+  LogOut,
+  Eye,
+  EyeOff,
+  Shield,
+  TrendingUp,
+  CreditCard,
+  Activity,
+} from 'lucide-react';
+
+const ADMIN_PASSWORD = 'admin123';
+type Tab = 'users' | 'orders' | 'stats';
+
+export default function AdminClient() {
+  const { allUsers, allOrders } = useFlexi();
+
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [activeTab, setActiveTab] = useState<Tab>('users');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setAuthenticated(true);
+      setAuthError('');
+    } else {
+      setAuthError('Incorrect admin password.');
+    }
+  };
+
+  /* ─── Stats ─────────────────────────────────────────── */
+  const totalGMV = allOrders.reduce((s, o) => s + o.loanAmount, 0);
+  const activeEmis = allOrders.filter(o => o.paymentPlan > 1).length;
+  const avgCredit =
+    allUsers.length > 0
+      ? Math.round(allUsers.reduce((s, u) => s + u.creditLimit, 0) / allUsers.length)
+      : 0;
+  const fullPayOrders = allOrders.filter(o => o.paymentPlan === 1).length;
+  const bnplOrders = allOrders.filter(o => o.paymentPlan > 1).length;
+
+  /* ─── Login Gate ─────────────────────────────────────── */
+  if (!authenticated) {
+    return (
+      <div className={styles.loginWrap}>
+        <div className={`glass-panel ${styles.loginCard}`}>
+          <div className={styles.loginIcon}>
+            <Shield size={40} color="var(--accent-primary)" />
+          </div>
+          <h1 className={styles.loginTitle}>Admin Panel</h1>
+          <p className={styles.loginSub}>FlexiPay Operations Dashboard</p>
+
+          {authError && <div className={styles.errorAlert}>{authError}</div>}
+
+          <form onSubmit={handleLogin} className={styles.loginForm}>
+            <div className={styles.passWrap}>
+              <input
+                type={showPass ? 'text' : 'password'}
+                placeholder="Enter admin password"
+                value={password}
+                required
+                onChange={e => setPassword(e.target.value)}
+                className={styles.passInput}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className={styles.eyeBtn}
+                onClick={() => setShowPass(v => !v)}
+                tabIndex={-1}
+              >
+                {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+            <button type="submit" className={`glass-button ${styles.loginBtn}`}>
+              <Lock size={16} />
+              Sign In
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  /* ─── Dashboard ──────────────────────────────────────── */
+  return (
+    <div className={styles.adminWrap}>
+      {/* Sidebar */}
+      <aside className={`glass-panel ${styles.sidebar}`}>
+        <div className={styles.sidebarLogo}>
+          <div className={styles.logoIcon}>F</div>
+          <span>
+            Flexi<span className="gradient-text">Admin</span>
+          </span>
+        </div>
+
+        <nav className={styles.sideNav}>
+          <button
+            className={`${styles.navBtn} ${activeTab === 'users' ? styles.navBtnActive : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            <Users size={18} /> Users
+          </button>
+          <button
+            className={`${styles.navBtn} ${activeTab === 'orders' ? styles.navBtnActive : ''}`}
+            onClick={() => setActiveTab('orders')}
+          >
+            <ShoppingBag size={18} /> Orders
+          </button>
+          <button
+            className={`${styles.navBtn} ${activeTab === 'stats' ? styles.navBtnActive : ''}`}
+            onClick={() => setActiveTab('stats')}
+          >
+            <BarChart2 size={18} /> Stats
+          </button>
+        </nav>
+
+        <button
+          className={styles.logoutBtn}
+          onClick={() => setAuthenticated(false)}
+        >
+          <LogOut size={16} /> Logout
+        </button>
+      </aside>
+
+      {/* Main content */}
+      <main className={styles.content}>
+        {/* ── Users Tab ── */}
+        {activeTab === 'users' && (
+          <section>
+            <div className={styles.tabHeader}>
+              <h2><Users size={22} /> Registered Users</h2>
+              <span className={styles.badge}>{allUsers.length} total</span>
+            </div>
+
+            {allUsers.length === 0 ? (
+              <div className={styles.emptyState}>
+                <Users size={44} color="var(--text-secondary)" />
+                <p>No users registered yet.</p>
+              </div>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>PAN</th>
+                      <th>Age</th>
+                      <th>Income/mo</th>
+                      <th>Credit Limit</th>
+                      <th>Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allUsers.map((u: RegisteredUser, i) => (
+                      <tr key={u.pan}>
+                        <td>{i + 1}</td>
+                        <td>{u.name}</td>
+                        <td>{u.email}</td>
+                        <td>{u.phone}</td>
+                        <td><code>{u.pan}</code></td>
+                        <td>{u.age}</td>
+                        <td>₹{u.income.toLocaleString()}</td>
+                        <td>
+                          <span className={styles.creditPill}>
+                            ₹{u.creditLimit.toLocaleString()}
+                          </span>
+                        </td>
+                        <td>{new Date(u.joinedAt).toLocaleDateString('en-IN')}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ── Orders Tab ── */}
+        {activeTab === 'orders' && (
+          <section>
+            <div className={styles.tabHeader}>
+              <h2><ShoppingBag size={22} /> All Orders</h2>
+              <span className={styles.badge}>{allOrders.length} total</span>
+            </div>
+
+            {allOrders.length === 0 ? (
+              <div className={styles.emptyState}>
+                <ShoppingBag size={44} color="var(--text-secondary)" />
+                <p>No orders placed yet.</p>
+              </div>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Customer</th>
+                      <th>Product</th>
+                      <th>Amount</th>
+                      <th>Plan</th>
+                      <th>EMI/mo</th>
+                      <th>City</th>
+                      <th>Delivery By</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allOrders.map((o: Order) => (
+                      <tr key={o.orderId}>
+                        <td><code>{o.orderId}</code></td>
+                        <td>{o.userName}</td>
+                        <td>{o.productName}</td>
+                        <td>₹{o.loanAmount.toLocaleString()}</td>
+                        <td>
+                          {o.paymentPlan === 1
+                            ? <span className={styles.planFull}>Full Pay</span>
+                            : <span className={styles.planEmi}>{o.paymentPlan}m EMI</span>}
+                        </td>
+                        <td>{o.emiAmount > 0 ? `₹${o.emiAmount.toLocaleString()}` : '—'}</td>
+                        <td>{o.address.city}</td>
+                        <td>{o.deliveryDate}</td>
+                        <td>
+                          <span className={styles.statusProcessing}>{o.status}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ── Stats Tab ── */}
+        {activeTab === 'stats' && (
+          <section>
+            <div className={styles.tabHeader}>
+              <h2><BarChart2 size={22} /> Platform Stats</h2>
+            </div>
+
+            <div className={styles.statsGrid}>
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(59,130,246,0.15)' }}>
+                  <Users size={24} color="var(--accent-primary)" />
+                </div>
+                <div className={styles.statValue}>{allUsers.length}</div>
+                <div className={styles.statLabel}>Total Users</div>
+              </div>
+
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(16,185,129,0.15)' }}>
+                  <TrendingUp size={24} color="var(--success)" />
+                </div>
+                <div className={styles.statValue}>₹{totalGMV.toLocaleString()}</div>
+                <div className={styles.statLabel}>Total GMV</div>
+              </div>
+
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(139,92,246,0.15)' }}>
+                  <ShoppingBag size={24} color="var(--accent-secondary)" />
+                </div>
+                <div className={styles.statValue}>{allOrders.length}</div>
+                <div className={styles.statLabel}>Total Orders</div>
+              </div>
+
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(245,158,11,0.15)' }}>
+                  <CreditCard size={24} color="var(--warning)" />
+                </div>
+                <div className={styles.statValue}>{activeEmis}</div>
+                <div className={styles.statLabel}>BNPL Orders</div>
+              </div>
+
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(16,185,129,0.15)' }}>
+                  <Activity size={24} color="var(--success)" />
+                </div>
+                <div className={styles.statValue}>₹{avgCredit.toLocaleString()}</div>
+                <div className={styles.statLabel}>Avg Credit Limit</div>
+              </div>
+
+              <div className={`glass-card ${styles.statCard}`}>
+                <div className={styles.statIcon} style={{ background: 'rgba(59,130,246,0.15)' }}>
+                  <BarChart2 size={24} color="var(--accent-primary)" />
+                </div>
+                <div className={styles.statValue}>
+                  {allOrders.length > 0
+                    ? `${Math.round((bnplOrders / allOrders.length) * 100)}%`
+                    : '—'}
+                </div>
+                <div className={styles.statLabel}>BNPL Adoption Rate</div>
+              </div>
+            </div>
+
+            {/* Order breakdown mini‑chart */}
+            {allOrders.length > 0 && (
+              <div className={`glass-card ${styles.breakdownCard}`}>
+                <h3 style={{ marginBottom: '20px' }}>Order Breakdown</h3>
+                <div className={styles.breakdownBar}>
+                  <div
+                    className={styles.barFull}
+                    style={{ width: `${(fullPayOrders / allOrders.length) * 100}%` }}
+                    title={`Full Pay: ${fullPayOrders}`}
+                  />
+                  <div
+                    className={styles.barBnpl}
+                    style={{ width: `${(bnplOrders / allOrders.length) * 100}%` }}
+                    title={`BNPL: ${bnplOrders}`}
+                  />
+                </div>
+                <div className={styles.breakdownLegend}>
+                  <span><span className={styles.dotFull} /> Full Payment ({fullPayOrders})</span>
+                  <span><span className={styles.dotBnpl} /> BNPL / EMI ({bnplOrders})</span>
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+      </main>
+    </div>
+  );
+}

@@ -116,8 +116,22 @@
   color: var(--text-secondary);
 }
 
+.adminLink {
+  display: flex;
+  align-items: center;
+  color: rgba(148, 163, 184, 0.35);
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.2s;
+}
+
+.adminLink:hover {
+  color: var(--text-secondary);
+}
+
 @media (max-width: 768px) {
   .navLinks {
     display: none;
   }
 }
+

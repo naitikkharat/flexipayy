@@ -1,0 +1,107 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.card {
+  background: var(--bg-gradient-start);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  max-width: 460px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.iconWrap {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  padding: 16px;
+  margin-bottom: 4px;
+}
+
+.card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.previewTable {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.pRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pRow:last-child {
+  border-bottom: none;
+}
+
+.pRow span:first-child {
+  color: var(--text-secondary);
+}
+
+.pRow span:last-child {
+  font-weight: 500;
+  color: white;
+  text-align: right;
+  max-width: 230px;
+}
+
+.downloadBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  font-size: 1rem;
+}

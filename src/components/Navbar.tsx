@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useFlexi } from '@/context/FlexiContext';
-import { Wallet, Store, LogOut, LayoutDashboard, Coins } from 'lucide-react';
+import { Wallet, Store, LogOut, LayoutDashboard, Coins, ShieldCheck } from 'lucide-react';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -50,6 +50,11 @@ export default function Navbar() {
         ) : (
           <div className={styles.loginHint}>Complete KYC to get credit Limit</div>
         )}
+
+        {/* Subtle admin access */}
+        <Link href="/admin" className={styles.adminLink} title="Admin Panel">
+          <ShieldCheck size={15} />
+        </Link>
       </div>
     </nav>
   );

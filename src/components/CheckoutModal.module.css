@@ -14,16 +14,35 @@
   animation: fadeIn 0.3s ease-out;
 }
 
+@media (max-width: 600px) {
+  .modalOverlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
 .modalContent {
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
+  max-height: 90dvb;
   overflow-y: auto;
   background: var(--bg-gradient-start);
   padding: 32px;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    padding: 24px;
+    max-height: 100vh;
+    border-radius: 20px 20px 0 0;
+    position: fixed;
+    bottom: 0;
+    max-width: 100%;
+  }
 }
 
 /* Custom scrollbar for the modal */
@@ -56,6 +75,7 @@
   align-items: center;
   justify-content: center;
   transition: background var(--transition-fast);
+  z-index: 10;
 }
 
 .closeBtn:hover {
@@ -72,6 +92,18 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   border: 1px solid var(--glass-border);
+}
+
+@media (max-width: 480px) {
+  .productSummary {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .productImage {
+    width: 48px !important;
+    height: 48px !important;
+  }
 }
 
 .productImage {
@@ -97,6 +129,12 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .monthOptions {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .monthOption {
@@ -204,4 +242,139 @@
 .dpInput:focus {
   outline: none;
   border-color: var(--accent-primary);
+}
+
+/* ── Step indicator ─────────────────────────────── */
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+.stepActive {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.stepDone {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.stepPending {
+  color: var(--text-secondary);
+}
+
+/* ── Delivery estimate banner ───────────────────── */
+.deliveryBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+
+/* ── Address form ───────────────────────────────── */
+.addressForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.addrRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .addrRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.addrGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.addrGroup label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.addrGroup input {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--glass-border);
+  padding: 11px 14px;
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.addrGroup input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.addrGroup input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+/* ── Mini order summary in address step ─────────── */
+.miniSummary {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.miniRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.miniRow span:last-child {
+  font-weight: 600;
+  color: white;
+}
+
+/* ── Success delivery badge ──────────────────────── */
+.deliveryBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  margin-top: 16px;
+}
+
+/* ── Coins section ──────────────────────────────── */
+.coinsSection {
+  background: rgba(245, 158, 11, 0.05);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 10px;
+  padding: 16px;
 }
