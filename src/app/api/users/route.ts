@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
     const body = await req.json();
-    const { pan, name, email, phone, age, income, creditLimit, flexiCoins } = body;
+    const { pan, name, email, phone, age, income, creditLimit, flexiCoins, employmentStatus } = body;
 
     if (!pan || !name || !email || !phone) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     const user = await User.findOneAndUpdate(
       { pan },
-      { pan, name, email, phone, age, income, creditLimit, flexiCoins, joinedAt: new Date() },
+      { pan, name, email, phone, age, income, creditLimit, flexiCoins, employmentStatus, joinedAt: new Date() },
       { upsert: true, new: true, setDefaultsOnInsert: true }
     ).lean();
 

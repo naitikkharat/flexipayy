@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useFlexi } from '@/context/FlexiContext';
-import { Wallet, Store, LogOut, LayoutDashboard, Coins, ShieldCheck } from 'lucide-react';
+import { Wallet, Store, LogOut, LayoutDashboard, Coins, ShieldCheck, HelpCircle } from 'lucide-react';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {

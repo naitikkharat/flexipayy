@@ -133,7 +133,8 @@ export const FlexiProvider = ({ children }: { children: ReactNode }) => {
             email: me.email,
             phone: me.phone,
             age: me.age,
-            income: me.income
+            income: me.income,
+            employmentStatus: me.employmentStatus || 'salaried'
           });
           setCreditLimit(me.creditLimit);
           setAvailableCredit(me.creditLimit); 
@@ -213,6 +214,7 @@ export const FlexiProvider = ({ children }: { children: ReactNode }) => {
           phone: profile.phone,
           age: profile.age,
           income: profile.income,
+          employmentStatus: profile.employmentStatus,
           creditLimit: limit,
           flexiCoins: coins
         }),
