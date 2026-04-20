@@ -206,6 +206,7 @@ export default function AdminClient() {
                       <th>PAN</th>
                       <th>Age</th>
                       <th>Income/mo</th>
+                      <th>Employment</th>
                       <th>Credit Limit</th>
                       <th>Joined</th>
                     </tr>
@@ -220,6 +221,11 @@ export default function AdminClient() {
                         <td><code>{u.pan}</code></td>
                         <td>{u.age}</td>
                         <td>₹{u.income.toLocaleString()}</td>
+                        <td>
+                          <span className={u.employmentStatus === 'salaried' ? styles.planFull : styles.planEmi}>
+                            {u.employmentStatus || 'Salaried'}
+                          </span>
+                        </td>
                         <td>
                           <span className={styles.creditPill}>
                             ₹{u.creditLimit.toLocaleString()}
@@ -420,7 +426,7 @@ export default function AdminClient() {
                         <td>{new Date(t.createdAt).toLocaleDateString()}</td>
                         <td>
                           <span className={t.status === 'open' ? styles.statusProcessing : styles.statusSuccess}>
-                            {t.status.toUpperCase()}
+                            {t.status?.toUpperCase() || 'OPEN'}
                           </span>
                         </td>
                         <td>

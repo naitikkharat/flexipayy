@@ -314,6 +314,34 @@
   text-transform: capitalize;
 }
 
+.statusSuccess {
+  background: rgba(16, 185, 129, 0.1);
+  color: #6ee7b7;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.miniBtn {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.miniBtn:hover {
+  background: rgba(16, 185, 129, 0.2);
+  transform: scale(1.1);
+}
+
 /* ─── Stats ──────────────────────────────────────── */
 .statsGrid {
   display: grid;
