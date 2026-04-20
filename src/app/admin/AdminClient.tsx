@@ -49,10 +49,15 @@ export default function AdminClient() {
       const res = await fetch('/api/tickets');
       if (res.ok) {
         const data = await res.json();
-        setTickets(data);
+        if (Array.isArray(data)) {
+          setTickets(data);
+        } else {
+          setTickets([]);
+        }
       }
     } catch (err) {
       console.error('Error fetching tickets:', err);
+      setTickets([]);
     } finally {
       setLoadingTickets(false);
     }
@@ -80,14 +85,17 @@ export default function AdminClient() {
   }, [activeTab, authenticated]);
 
   /* ─── Stats ─────────────────────────────────────────── */
-  const totalGMV = allOrders.reduce((s, o) => s + o.loanAmount, 0);
-  const activeEmis = allOrders.filter(o => o.paymentPlan > 1).length;
+  const safeOrders = Array.isArray(allOrders) ? allOrders : [];
+  const safeUsers = Array.isArray(allUsers) ? allUsers : [];
+
+  const totalGMV = safeOrders.reduce((s, o) => s + (o.loanAmount || 0), 0);
+  const activeEmis = safeOrders.filter(o => (o.paymentPlan || 0) > 1).length;
   const avgCredit =
-    allUsers.length > 0
-      ? Math.round(allUsers.reduce((s, u) => s + u.creditLimit, 0) / allUsers.length)
+    safeUsers.length > 0
+      ? Math.round(safeUsers.reduce((s, u) => s + (u.creditLimit || 0), 0) / safeUsers.length)
       : 0;
-  const fullPayOrders = allOrders.filter(o => o.paymentPlan === 1).length;
-  const bnplOrders = allOrders.filter(o => o.paymentPlan > 1).length;
+  const fullPayOrders = safeOrders.filter(o => o.paymentPlan === 1).length;
+  const bnplOrders = safeOrders.filter(o => (o.paymentPlan || 0) > 1).length;
 
   /* ─── Login Gate ─────────────────────────────────────── */
   if (!authenticated) {
@@ -212,15 +220,15 @@ export default function AdminClient() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allUsers.map((u: RegisteredUser, i) => (
-                      <tr key={u.pan}>
+                    {safeUsers.map((u: RegisteredUser, i) => (
+                      <tr key={u.pan || i}>
                         <td>{i + 1}</td>
-                        <td>{u.name}</td>
-                        <td>{u.email}</td>
-                        <td>{u.phone}</td>
-                        <td><code>{u.pan}</code></td>
-                        <td>{u.age}</td>
-                        <td>₹{u.income.toLocaleString()}</td>
+                        <td>{u.name || 'Anonymous'}</td>
+                        <td>{u.email || '—'}</td>
+                        <td>{u.phone || '—'}</td>
+                        <td><code>{u.pan || '—'}</code></td>
+                        <td>{u.age || '—'}</td>
+                        <td>₹{(u.income || 0).toLocaleString()}</td>
                         <td>
                           <span className={u.employmentStatus === 'salaried' ? styles.planFull : styles.planEmi}>
                             {u.employmentStatus || 'Salaried'}
@@ -228,10 +236,10 @@ export default function AdminClient() {
                         </td>
                         <td>
                           <span className={styles.creditPill}>
-                            ₹{u.creditLimit.toLocaleString()}
+                            ₹{(u.creditLimit || 0).toLocaleString()}
                           </span>
                         </td>
-                        <td>{new Date(u.joinedAt).toLocaleDateString('en-IN')}</td>
+                        <td>{u.joinedAt ? new Date(u.joinedAt).toLocaleDateString('en-IN') : '—'}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -271,22 +279,22 @@ export default function AdminClient() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allOrders.map((o: Order) => (
-                      <tr key={o.orderId}>
-                        <td><code>{o.orderId}</code></td>
-                        <td>{o.userName}</td>
-                        <td>{o.productName}</td>
-                        <td>₹{o.loanAmount.toLocaleString()}</td>
+                    {safeOrders.map((o: Order) => (
+                      <tr key={o.orderId || Math.random()}>
+                        <td><code>{o.orderId || '—'}</code></td>
+                        <td>{o.userName || '—'}</td>
+                        <td>{o.productName || '—'}</td>
+                        <td>₹{(o.loanAmount || 0).toLocaleString()}</td>
                         <td>
                           {o.paymentPlan === 1
                             ? <span className={styles.planFull}>Full Pay</span>
-                            : <span className={styles.planEmi}>{o.paymentPlan}m EMI</span>}
+                            : <span className={styles.planEmi}>{o.paymentPlan || 0}m EMI</span>}
                         </td>
-                        <td>{o.emiAmount > 0 ? `₹${o.emiAmount.toLocaleString()}` : '—'}</td>
-                        <td>{o.address.city}</td>
-                        <td>{o.deliveryDate}</td>
+                        <td>{o.emiAmount > 0 ? `₹${(o.emiAmount || 0).toLocaleString()}` : '—'}</td>
+                        <td>{o.address?.city || '—'}</td>
+                        <td>{o.deliveryDate || '—'}</td>
                         <td>
-                          <span className={styles.statusProcessing}>{o.status}</span>
+                          <span className={styles.statusProcessing}>{o.status || 'processing'}</span>
                         </td>
                       </tr>
                     ))}
@@ -309,7 +317,7 @@ export default function AdminClient() {
                 <div className={styles.statIcon} style={{ background: 'rgba(59,130,246,0.15)' }}>
                   <Users size={24} color="var(--accent-primary)" />
                 </div>
-                <div className={styles.statValue}>{allUsers.length}</div>
+                <div className={styles.statValue}>{safeUsers.length}</div>
                 <div className={styles.statLabel}>Total Users</div>
               </div>
 
@@ -325,7 +333,7 @@ export default function AdminClient() {
                 <div className={styles.statIcon} style={{ background: 'rgba(139,92,246,0.15)' }}>
                   <ShoppingBag size={24} color="var(--accent-secondary)" />
                 </div>
-                <div className={styles.statValue}>{allOrders.length}</div>
+                <div className={styles.statValue}>{safeOrders.length}</div>
                 <div className={styles.statLabel}>Total Orders</div>
               </div>
 
@@ -341,7 +349,7 @@ export default function AdminClient() {
                 <div className={styles.statIcon} style={{ background: 'rgba(16,185,129,0.15)' }}>
                   <Activity size={24} color="var(--success)" />
                 </div>
-                <div className={styles.statValue}>₹{avgCredit.toLocaleString()}</div>
+                <div className={styles.statValue}>₹{(avgCredit || 0).toLocaleString()}</div>
                 <div className={styles.statLabel}>Avg Credit Limit</div>
               </div>
 
@@ -350,8 +358,8 @@ export default function AdminClient() {
                   <BarChart2 size={24} color="var(--accent-primary)" />
                 </div>
                 <div className={styles.statValue}>
-                  {allOrders.length > 0
-                    ? `${Math.round((bnplOrders / allOrders.length) * 100)}%`
+                  {safeOrders.length > 0
+                    ? `${Math.round((bnplOrders / safeOrders.length) * 100)}%`
                     : '—'}
                 </div>
                 <div className={styles.statLabel}>BNPL Adoption Rate</div>
@@ -359,18 +367,18 @@ export default function AdminClient() {
             </div>
 
             {/* Order breakdown mini‑chart */}
-            {allOrders.length > 0 && (
+            {safeOrders.length > 0 && (
               <div className={`glass-card ${styles.breakdownCard}`}>
                 <h3 style={{ marginBottom: '20px' }}>Order Breakdown</h3>
                 <div className={styles.breakdownBar}>
                   <div
                     className={styles.barFull}
-                    style={{ width: `${(fullPayOrders / allOrders.length) * 100}%` }}
+                    style={{ width: `${(fullPayOrders / safeOrders.length) * 100}%` }}
                     title={`Full Pay: ${fullPayOrders}`}
                   />
                   <div
                     className={styles.barBnpl}
-                    style={{ width: `${(bnplOrders / allOrders.length) * 100}%` }}
+                    style={{ width: `${(bnplOrders / safeOrders.length) * 100}%` }}
                     title={`BNPL: ${bnplOrders}`}
                   />
                 </div>
@@ -391,11 +399,7 @@ export default function AdminClient() {
               <span className={styles.badge}>{tickets.length} total</span>
             </div>
 
-            {loadingTickets ? (
-              <div className={styles.emptyState}>
-                <p>Loading tickets...</p>
-              </div>
-            ) : tickets.length === 0 ? (
+            {!Array.isArray(tickets) || tickets.length === 0 ? (
               <div className={styles.emptyState}>
                 <LifeBuoy size={44} color="var(--text-secondary)" />
                 <p>No support tickets yet.</p>
@@ -416,14 +420,14 @@ export default function AdminClient() {
                   </thead>
                   <tbody>
                     {tickets.map((t) => (
-                      <tr key={t._id}>
-                        <td style={{ fontWeight: 600 }}>{t.subject}</td>
-                        <td>{t.userName}</td>
-                        <td>{t.userEmail}</td>
+                      <tr key={t._id || Math.random()}>
+                        <td style={{ fontWeight: 600 }}>{t.subject || 'No Subject'}</td>
+                        <td>{t.userName || '—'}</td>
+                        <td>{t.userEmail || '—'}</td>
                         <td style={{ maxWidth: '300px', whiteSpace: 'normal', fontSize: '0.85rem' }}>
-                          {t.message}
+                          {t.message || '—'}
                         </td>
-                        <td>{new Date(t.createdAt).toLocaleDateString()}</td>
+                        <td>{t.createdAt ? new Date(t.createdAt).toLocaleDateString() : '—'}</td>
                         <td>
                           <span className={t.status === 'open' ? styles.statusProcessing : styles.statusSuccess}>
                             {t.status?.toUpperCase() || 'OPEN'}
