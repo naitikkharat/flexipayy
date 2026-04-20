@@ -27,6 +27,10 @@ export default function Navbar() {
           <Store size={18} />
           <span>Store</span>
         </Link>
+        <Link href="/help" className={styles.navLink}>
+          <HelpCircle size={18} />
+          <span>Help</span>
+        </Link>
       </div>
 
       <div className={styles.userSection}>

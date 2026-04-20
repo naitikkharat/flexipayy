@@ -196,5 +196,40 @@ export const dummyProducts: Product[] = [
     price: 499,
     category: 'Home Appliances',
     image: 'https://plus.unsplash.com/premium_photo-1679046944626-44b2f15e8ac9?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    id: 'p28',
+    name: 'Noise ColorFit Ultra 3',
+    price: 4499,
+    category: 'Accessories',
+    image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    id: 'p29',
+    name: 'TP-Link Archer AC1200',
+    price: 3299,
+    category: 'Electronics',
+    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    id: 'p30',
+    name: 'SanDisk 256GB Extreme Pro',
+    price: 3499,
+    category: 'Electronics',
+    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    id: 'p31',
+    name: 'Prestige Induction Cooktop',
+    price: 3995,
+    category: 'Home Appliances',
+    image: 'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=600&auto=format&fit=crop'
+  },
+  {
+    id: 'p32',
+    name: 'Xiaomi 360° Home Camera',
+    price: 4299,
+    category: 'Electronics',
+    image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=600&auto=format&fit=crop'
   }
 ];

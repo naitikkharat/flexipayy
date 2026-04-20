@@ -13,6 +13,7 @@ export default function Onboarding() {
     age: '',
     income: '',
     pan: '',
+    employmentStatus: 'salaried' as 'salaried' | 'non-salaried',
   });
   const [error, setError] = useState('');
 
@@ -46,9 +47,15 @@ export default function Onboarding() {
     }
 
     let assignedLimit = 10000;
-    if (income > 20000) assignedLimit = 25000;
-    if (income > 50000) assignedLimit = 60000;
-    if (income > 100000) assignedLimit = 100000;
+    
+    if (formData.employmentStatus === 'non-salaried') {
+      assignedLimit = 5000;
+    } else {
+      // Salaried logic
+      if (income > 20000) assignedLimit = 25000;
+      if (income > 50000) assignedLimit = 60000;
+      if (income > 100000) assignedLimit = 100000;
+    }
 
     login(
       {
@@ -58,6 +65,7 @@ export default function Onboarding() {
         age,
         income,
         pan: formData.pan,
+        employmentStatus: formData.employmentStatus,
       },
       assignedLimit
     );
@@ -146,8 +154,33 @@ export default function Onboarding() {
                 placeholder="25000"
                 value={formData.income}
                 onChange={e => set('income', e.target.value)}
+                disabled={formData.employmentStatus === 'non-salaried'}
               />
             </div>
+          </div>
+
+          {/* Employment Status */}
+          <div className={styles.inputGroup}>
+            <label>Employment Status</label>
+            <div className={styles.statusToggle}>
+              <button
+                type="button"
+                className={`${styles.toggleBtn} ${formData.employmentStatus === 'salaried' ? styles.toggleBtnActive : ''}`}
+                onClick={() => set('employmentStatus', 'salaried')}
+              >
+                Salaried
+              </button>
+              <button
+                type="button"
+                className={`${styles.toggleBtn} ${formData.employmentStatus === 'non-salaried' ? styles.toggleBtnActive : ''}`}
+                onClick={() => set('employmentStatus', 'non-salaried')}
+              >
+                Not Salaried
+              </button>
+            </div>
+            {formData.employmentStatus === 'non-salaried' && (
+              <p className={styles.hintText}>Fixed credit limit of ₹5,000 for non-salaried users.</p>
+            )}
           </div>
 
           {/* PAN */}

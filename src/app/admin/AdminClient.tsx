@@ -15,10 +15,12 @@ import {
   TrendingUp,
   CreditCard,
   Activity,
+  LifeBuoy,
+  CheckCircle,
 } from 'lucide-react';
 
 const ADMIN_PASSWORD = 'admin123';
-type Tab = 'users' | 'orders' | 'stats';
+type Tab = 'users' | 'orders' | 'stats' | 'tickets';
 
 export default function AdminClient() {
   const { allUsers, allOrders } = useFlexi();
@@ -28,6 +30,8 @@ export default function AdminClient() {
   const [showPass, setShowPass] = useState(false);
   const [authError, setAuthError] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>('users');
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [loadingTickets, setLoadingTickets] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +42,42 @@ export default function AdminClient() {
       setAuthError('Incorrect admin password.');
     }
   };
+
+  const fetchTickets = async () => {
+    setLoadingTickets(true);
+    try {
+      const res = await fetch('/api/tickets');
+      if (res.ok) {
+        const data = await res.json();
+        setTickets(data);
+      }
+    } catch (err) {
+      console.error('Error fetching tickets:', err);
+    } finally {
+      setLoadingTickets(false);
+    }
+  };
+
+  const resolveTicket = async (id: string) => {
+    try {
+      const res = await fetch('/api/tickets', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: 'resolved' })
+      });
+      if (res.ok) {
+        fetchTickets();
+      }
+    } catch (err) {
+      console.error('Error resolving ticket:', err);
+    }
+  };
+
+  React.useEffect(() => {
+    if (activeTab === 'tickets' && authenticated) {
+      fetchTickets();
+    }
+  }, [activeTab, authenticated]);
 
   /* ─── Stats ─────────────────────────────────────────── */
   const totalGMV = allOrders.reduce((s, o) => s + o.loanAmount, 0);
@@ -122,6 +162,12 @@ export default function AdminClient() {
             onClick={() => setActiveTab('stats')}
           >
             <BarChart2 size={18} /> Stats
+          </button>
+          <button
+            className={`${styles.navBtn} ${activeTab === 'tickets' ? styles.navBtnActive : ''}`}
+            onClick={() => setActiveTab('tickets')}
+          >
+            <LifeBuoy size={18} /> Tickets
           </button>
         </nav>
 
@@ -326,6 +372,72 @@ export default function AdminClient() {
                   <span><span className={styles.dotFull} /> Full Payment ({fullPayOrders})</span>
                   <span><span className={styles.dotBnpl} /> BNPL / EMI ({bnplOrders})</span>
                 </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ── Tickets Tab ── */}
+        {activeTab === 'tickets' && (
+          <section>
+            <div className={styles.tabHeader}>
+              <h2><LifeBuoy size={22} /> Support Tickets</h2>
+              <span className={styles.badge}>{tickets.length} total</span>
+            </div>
+
+            {loadingTickets ? (
+              <div className={styles.emptyState}>
+                <p>Loading tickets...</p>
+              </div>
+            ) : tickets.length === 0 ? (
+              <div className={styles.emptyState}>
+                <LifeBuoy size={44} color="var(--text-secondary)" />
+                <p>No support tickets yet.</p>
+              </div>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th>Customer</th>
+                      <th>Email</th>
+                      <th>Message</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tickets.map((t) => (
+                      <tr key={t._id}>
+                        <td style={{ fontWeight: 600 }}>{t.subject}</td>
+                        <td>{t.userName}</td>
+                        <td>{t.userEmail}</td>
+                        <td style={{ maxWidth: '300px', whiteSpace: 'normal', fontSize: '0.85rem' }}>
+                          {t.message}
+                        </td>
+                        <td>{new Date(t.createdAt).toLocaleDateString()}</td>
+                        <td>
+                          <span className={t.status === 'open' ? styles.statusProcessing : styles.statusSuccess}>
+                            {t.status.toUpperCase()}
+                          </span>
+                        </td>
+                        <td>
+                          {t.status === 'open' && (
+                            <button 
+                              className={styles.miniBtn}
+                              onClick={() => resolveTicket(t._id)}
+                              title="Mark as Resolved"
+                            >
+                              <CheckCircle size={16} />
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </section>

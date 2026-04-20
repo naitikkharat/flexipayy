@@ -101,6 +101,39 @@
   padding: 14px;
 }
 
+.statusToggle {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.toggleBtnActive {
+  background: var(--accent-gradient);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.hintText {
+  font-size: 0.85rem;
+  color: var(--accent-primary);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
 .errorAlert {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);

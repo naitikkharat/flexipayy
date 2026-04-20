@@ -9,6 +9,7 @@ const UserSchema = new Schema({
   income: { type: Number, required: true },
   creditLimit: { type: Number, required: true },
   flexiCoins: { type: Number, default: 0 },
+  employmentStatus: { type: String, enum: ['salaried', 'non-salaried'], default: 'salaried' },
   joinedAt: { type: Date, default: Date.now },
 });
 

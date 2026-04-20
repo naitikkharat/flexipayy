@@ -61,6 +61,7 @@ export type RegisteredUser = {
   income: number;
   creditLimit: number;
   flexiCoins: number;
+  employmentStatus: 'salaried' | 'non-salaried';
   joinedAt: string;
 };
 
@@ -71,6 +72,7 @@ interface UserProfile {
   pan: string;
   email: string;
   phone: string;
+  employmentStatus: 'salaried' | 'non-salaried';
 }
 
 interface FlexiContextType {
